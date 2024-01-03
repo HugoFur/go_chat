@@ -1,0 +1,58 @@
+# Binários compilados
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Arquivos de saída de logs
+*.log
+*.out
+
+# Arquivos gerados por depuração
+*.pem
+*.key
+
+# Diretórios de configuração do editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Pastas específicas do Go
+bin/
+pkg/
+vendor/
+
+# Arquivo de cobertura de código
+coverage.txt
+
+# Arquivo de dependências
+Gopkg.lock
+go.sum
+
+# Arquivos de ambiente ocultos
+.env
+.env.local
+
+# Arquivos e diretórios gerados durante a construção
+dist
+build
+*_obj
+*_test
+
+# Dependências de ferramentas
+/tool
+
+# Pasta para projetos que usam Go Modules (remova se não estiver usando)
+go.mod
+go.sum
+
+# Certificados de segurança
+*.crt
+*.cer
+*.key
+
+# Arquivo de cache do Go
+*.cache
