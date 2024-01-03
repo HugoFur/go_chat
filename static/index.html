@@ -2,13 +2,16 @@
 <html>
 <head>
     <title>Go Chat</title>
+    <style>
+        /* CSS do chat */
+    </style>
 </head>
 <body>
     <h1>Bem vindo ao Go Chat!</h1>
     <div id="messages"></div>
     <form id="message-form">
         <input type="text" id="message-input" placeholder="Escreva sua mensagem...">
-        <button type="submit">Send</button>
+        <button type="submit">Enviar</button>
     </form>
 
     <script>
@@ -17,7 +20,7 @@
         socket.onmessage = function(event) {
             var message = JSON.parse(event.data);
             var messageElement = document.createElement("div");
-            messageElement.innerText = message.text;
+            messageElement.innerText = message.sender + ": " + message.content;
             document.getElementById("messages").appendChild(messageElement);
         };
 
@@ -25,7 +28,8 @@
             event.preventDefault();
             var messageInput = document.getElementById("message-input");
             var message = {
-                text: messageInput.value
+                sender: "Usuário", // Substituir por lógica de autenticação
+                content: messageInput.value
             };
             socket.send(JSON.stringify(message));
             messageInput.value = "";

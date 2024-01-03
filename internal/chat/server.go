@@ -8,26 +8,17 @@ import (
 )
 
 type Message struct {
-	Sender  string `json:"sender"`  // Nome do remetente
-	Content string `json:"content"` // Conteúdo da mensagem
+	Sender  string `json:"sender"`
+	Content string `json:"content"`
 }
 
 type Server struct {
-	clients    map[*Client]bool // conjunto de clientes conectados
-	register   chan *Client     // canal para registrar novos clientes
-	unregister chan *Client     // canal para remover clientes
-	broadcast  chan Message     // canal para enviar mensagens para todos os clientes
+	clients    map[*Client]bool
+	register   chan *Client
+	unregister chan *Client
+	broadcast  chan Message
 }
 
-func newClient(socket *websocket.Conn, server *Server) *Client {
-	return &Client{
-		socket: socket,
-		send:   make(chan Message),
-		server: server,
-	}
-}
-
-// NewServer cria um novo servidor de chat
 func NewServer() *Server {
 	return &Server{
 		clients:    make(map[*Client]bool),
@@ -37,7 +28,6 @@ func NewServer() *Server {
 	}
 }
 
-// Run inicia o servidor e lida com canais de registro, cancelamento de registro e broadcast
 func (s *Server) Run() {
 	for {
 		select {
@@ -53,7 +43,6 @@ func (s *Server) Run() {
 			}
 
 		case message := <-s.broadcast:
-			// Enviar mensagem para todos os clientes conectados
 			for client := range s.clients {
 				select {
 				case client.send <- message:
@@ -74,7 +63,6 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-// HandleWebSocket lida com a conexão WebSocket
 func (s *Server) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -85,7 +73,6 @@ func (s *Server) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	client := NewClient(conn, s)
 	s.register <- client
 
-	// Iniciar rotinas de leitura e escrita do cliente
 	go client.Read()
 	go client.Write()
 }
