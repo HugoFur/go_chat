@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Go Chat</title>
+</head>
+<body>
+    <h1>Bem vindo ao Go Chat!</h1>
+    <div id="messages"></div>
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="Escreva sua mensagem...">
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        var socket = new WebSocket("ws://localhost:8080/ws");
+
+        socket.onmessage = function(event) {
+            var message = JSON.parse(event.data);
+            var messageElement = document.createElement("div");
+            messageElement.innerText = message.text;
+            document.getElementById("messages").appendChild(messageElement);
+        };
+
+        document.getElementById("message-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var messageInput = document.getElementById("message-input");
+            var message = {
+                text: messageInput.value
+            };
+            socket.send(JSON.stringify(message));
+            messageInput.value = "";
+        });
+    </script>
+</body>
+</html>

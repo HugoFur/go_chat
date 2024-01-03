@@ -7,7 +7,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Servidor de Chat em Go"))
+		http.ServeFile(w, r, "static/index.html")
 	})
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
