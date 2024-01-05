@@ -3,7 +3,26 @@
 <head>
     <title>Go Chat</title>
     <style>
-        /* CSS do chat */
+        body {
+            font-family: sans-serif;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            height: 200px;
+            overflow-y: scroll;
+        }
+        #message-form {
+            display: flex;
+        }
+        #message-form input {
+            flex: 1;
+            margin-right: 10px;
+        }
+        #message-form button {
+            flex: 0;
+        }
     </style>
 </head>
 <body>
