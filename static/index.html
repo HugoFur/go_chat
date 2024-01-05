@@ -10,6 +10,7 @@
     <h1>Bem vindo ao Go Chat!</h1>
     <div id="messages"></div>
     <form id="message-form">
+        <input type="text" id="username-input" placeholder="Digite seu nome...">
         <input type="text" id="message-input" placeholder="Escreva sua mensagem...">
         <button type="submit">Enviar</button>
     </form>
@@ -27,8 +28,9 @@
         document.getElementById("message-form").addEventListener("submit", function(event) {
             event.preventDefault();
             var messageInput = document.getElementById("message-input");
+            var usernameInput = document.getElementById("username-input");
             var message = {
-                sender: "Usuário", // Substituir por lógica de autenticação
+                sender: usernameInput.value,
                 content: messageInput.value
             };
             socket.send(JSON.stringify(message));
